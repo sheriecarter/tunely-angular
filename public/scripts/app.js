@@ -11,6 +11,29 @@ function AlbumsIndexController ($http) {
     name: 'Viva Hate',
     artistName: 'Morrissey'
   };
+  vm.editAlbum = function (album) {
+    $http({
+      method: "PUT",
+      url: '/api/albums/' + album._id,
+      data: album
+    }).then(function successCallback(json){
+
+    }, function errorCallback(response){
+      console.log("Editing function now working", response);
+    });
+  }
+
+  vm.deleteAlbum = function (album) {
+  $http({
+    method: 'DELETE',
+    url: '/api/albums/'+ album._id
+  }).then(function successCallback(deletedAlbum) {
+    var index = vm.albums.indexOf(deletedAlbum);
+    vm.albums.splice(index, 1);
+  }, function errorCallback(response) {
+    console.log('There was an error deleting the data', response);
+  });
+}
 
   $http({
     method: 'GET',
@@ -32,4 +55,7 @@ function AlbumsIndexController ($http) {
       console.log('There was an error posting the data', response);
     });
   }
+
+
+
 }
